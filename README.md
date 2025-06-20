@@ -11,7 +11,7 @@
   <br />
 </h1>
 
-<h4 align="center">Minecraft plugin that enhances the base gameplay</h4><br />
+<h4 align="center"> Discord Bot for Personal use</h4><br />
 
 <div align="center">
 
@@ -36,14 +36,24 @@
 
 <p align="right"><a href="#readme-top">▲</a></p>
 
-[built_with_shield_url]: https://skillicons.dev/icons?i=kotlin,gradle,github,githubactions
+[built_with_shield_url]: https://skillicons.dev/icons?i=python,github,githubactions
+
 [built_with_url]: https://skillicons.dev
-[code_of_conduct_url]: https://github.com/XodiumSoftware/VanillaPlus?tab=coc-ov-file
-[contributing_url]: https://github.com/XodiumSoftware/VanillaPlus/blob/main/CONTRIBUTING.md
-[contributors_shield_url]: https://img.shields.io/github/contributors/XodiumSoftware/VanillaPlus?style=for-the-badge&color=blue
-[contributors_url]: https://github.com/XodiumSoftware/VanillaPlus/graphs/contributors
-[issues_shield_url]: https://img.shields.io/github/issues/XodiumSoftware/VanillaPlus?style=for-the-badge&color=yellow
-[issues_url]: https://github.com/XodiumSoftware/VanillaPlus/issues
-[license_url]: https://github.com/XodiumSoftware/VanillaPlus?tab=AGPL-3.0-1-ov-file
+
+[code_of_conduct_url]: https://github.com/XodiumSoftware/Illyrion?tab=coc-ov-file
+
+[contributing_url]: https://github.com/XodiumSoftware/Illyrion/blob/main/CONTRIBUTING.md
+
+[contributors_shield_url]: https://img.shields.io/github/contributors/XodiumSoftware/Illyrion?style=for-the-badge&color=blue
+
+[contributors_url]: https://github.com/XodiumSoftware/Illyrion/graphs/contributors
+
+[issues_shield_url]: https://img.shields.io/github/issues/XodiumSoftware/Illyrion?style=for-the-badge&color=yellow
+
+[issues_url]: https://github.com/XodiumSoftware/Illyrion/issues
+
+[license_url]: https://github.com/XodiumSoftware/Illyrion?tab=AGPL-3.0-1-ov-file
+
 [roadmap_shield_url]: https://img.shields.io/badge/Roadmap-Click%20Me!-purple.svg?style=for-the-badge
+
 [roadmap_url]: https://github.com/orgs/XodiumSoftware/projects/4
