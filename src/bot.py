@@ -66,16 +66,16 @@ class Bot:
                           default_member_permissions=discord.Permissions(administrator=True))
         @Utils.log_command_usage
         async def ping(ctx):
-            await ctx.respond(embed=discord.Embed(
+            await ctx.send_response(embed=discord.Embed(
                 title="Pong! 🏓",
                 description=f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`",
                 color=Utils.get_latency_color(Utils.latency_ms(self.bot))
-            ))
+            ), ephemeral=True)
 
         @self.bot.command(description="Returns the server IP address.")
         @Utils.log_command_usage
         async def ip(ctx):
-            await ctx.respond(embed=discord.Embed(
+            await ctx.send_response(embed=discord.Embed(
                 title="Server IP Address",
                 description="`illyria.xodium.org`",
                 color=discord.Color.blue()
@@ -85,17 +85,17 @@ class Bot:
                           default_member_permissions=discord.Permissions(administrator=True))
         @Utils.log_command_usage
         async def uptime(ctx):
-            await ctx.respond(embed=discord.Embed(
+            await ctx.send_response(embed=discord.Embed(
                 title="Bot Uptime",
                 description=f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`",
                 color=discord.Color.green()
-            ))
+            ), ephemeral=True)
 
         @self.bot.command(description="Displays the bot's metrics.",
                           default_member_permissions=discord.Permissions(administrator=True))
         @Utils.log_command_usage
         async def metrics(ctx):
-            await ctx.respond(embed=discord.Embed(
+            await ctx.send_response(embed=discord.Embed(
                 title="Metrics",
                 description=(
                     f"Latency is `{Utils.latency_ms(ctx.bot):.2f} ms`\n"
@@ -103,7 +103,7 @@ class Bot:
                     f"Memory Usage: `{psutil.virtual_memory().percent}%`"
                 ),
                 color=discord.Color.blue()
-            ))
+            ), ephemeral=True)
 
 
 if __name__ == "__main__":
