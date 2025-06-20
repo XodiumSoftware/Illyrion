@@ -5,21 +5,19 @@ import os
 from functools import wraps
 
 import discord
-from discord import Intents
+from discord import Intents, Interaction, Object
+from discord.app_commands import CommandTree
 from dotenv import load_dotenv
 
-def log_cmd(cmd):
-    def decorator(func):
-        @wraps(func)
-        async def wrapper(self, message, *args, **kwargs):
-            if message.author == self.user:
-                return await func(self, message, *args, **kwargs)
-            print(f'Command "{cmd}" used by @{message.author} ({message.author.id}) in #{message.channel} ({message.channel.id})')
-            response = await func(self, message, *args, **kwargs)
-            print(f'Responded with "{response}" to @{message.author} ({message.author.id}) in #{message.channel} ({message.channel.id})')
-            return response
-        return wrapper
-    return decorator
+def log_cmd(func):
+    @wraps(func)
+    async def wrapper(interaction: Interaction, *args, **kwargs):
+        cmd_name = func.__name__
+        print(f'Command "{cmd_name}" used by @{interaction.user} ({interaction.user.id}) in #{interaction.channel} ({interaction.channel.id})')
+        response = await func(interaction, *args, **kwargs)
+        print(f'Responded with "{response}" to @{interaction.user} ({interaction.user.id}) in #{interaction.channel} ({interaction.channel.id})')
+        return response
+    return wrapper
 
 class Bot(discord.Client):
     def __init__(self):
@@ -32,14 +30,18 @@ class Bot(discord.Client):
         self.token = os.getenv('DISCORD_BOT_TOKEN')
         if not self.token: raise ValueError("DISCORD_BOT_TOKEN is not set in the .env file")
 
-    async def on_ready(self):
-        print(f'Logged on as {self.user}')
+        self.tree = CommandTree(self)
+        self.guild = Object(id=691029695894126623)
 
-    @log_cmd('ping')
-    async def on_message(self, message):
-        if message.author == self.user: return
-        if message.content == 'ping':
-            await message.channel.send('pong')
+    async def setup_hook(self):
+        @log_cmd
+        @self.tree.command(name="test", description="Responds with pong")
+        async def ping(interaction: Interaction):
+            await interaction.channel.send("pong")
+
+        await self.tree.sync(guild=self.guild)
+
+    async def on_ready(self): print(f'Logged on as {self.user} ({self.user.id})')
 
     def run(self, **kwargs):
         super().run(self.token)
