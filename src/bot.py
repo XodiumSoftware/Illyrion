@@ -60,7 +60,6 @@ class Bot:
         @self.bot.event
         async def on_ready():
             print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
-            print(f"[LOG] Latency: {Utils.latency_ms(self.bot):.2f} ms")
 
     def setup_commands(self):
         @self.bot.command(description="Sends the bot's latency.",
