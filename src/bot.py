@@ -1,20 +1,24 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
-
+import logging
 import os
+from datetime import datetime
+from zipfile import ZipFile
 
 import discord
 from dotenv import load_dotenv
-from datetime import datetime
+
 
 class Bot:
     def __init__(self):
+        self.logger = logging.getLogger()
         self.bot = discord.Bot()
         self.setup_logging()
         self.setup_events()
         self.setup_commands()
 
-    def setup_logging(self):
+    @staticmethod
+    def setup_logging():
         os.makedirs("logs", exist_ok=True)
 
         latest_log_path = "logs/latest.log"
@@ -31,7 +35,6 @@ class Bot:
             format="%(asctime)s [%(levelname)s] %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
-        self.logger = logging.getLogger()
 
     def setup_events(self):
         @self.bot.event
@@ -42,7 +45,8 @@ class Bot:
         @self.bot.command(description="Sends the bot's latency.")
         async def ping(ctx):
             await ctx.respond(f"Pong! Latency is {self.bot.latency}")
-            print(f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
+            print(
+                f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
 
     def run(self):
         load_dotenv()
@@ -50,6 +54,7 @@ class Bot:
         if not token:
             raise ValueError("No TOKEN found in environment variables. Please set the TOKEN variable.")
         self.bot.run(token)
+
 
 if __name__ == "__main__":
     Bot().run()
