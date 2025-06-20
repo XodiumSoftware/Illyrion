@@ -9,6 +9,7 @@ from zipfile import ZipFile
 
 import discord
 import dotenv
+from discord.ext.commands import cooldown
 
 dotenv.load_dotenv()
 
@@ -59,6 +60,7 @@ class Bot:
         @self.bot.event
         async def on_ready():
             print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
+            print(f"[LOG] Latency: {Utils.latency_ms(self.bot):.2f} ms")
 
     def setup_commands(self):
         @self.bot.command(description="Sends the bot's latency.",
@@ -82,6 +84,7 @@ class Bot:
 
         @self.bot.command(description="Displays the bot's uptime.",
                           default_member_permissions=discord.Permissions(administrator=True))
+        @cooldown(1, 10)
         @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.respond(embed=discord.Embed(
