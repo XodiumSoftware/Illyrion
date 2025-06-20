@@ -26,7 +26,7 @@ class Bot:
             raise ValueError("No GUILD_ID found in environment variables. Please set the GUILD_ID variable.")
         self.start_time = datetime.now()
         self.logger = logging.getLogger()
-        self.bot = discord.Bot()
+        self.bot = discord.Bot(debug_guilds=[int(self.GUILD_ID)])
         self.setup_logging()
         self.setup_events()
         self.setup_commands()
@@ -61,7 +61,7 @@ class Bot:
             print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
 
     def setup_commands(self):
-        @self.bot.command(description="Sends the bot's latency.", guild_ids=[self.GUILD_ID])
+        @self.bot.command(description="Sends the bot's latency.")
         @Utils.log_command_usage
         async def ping(ctx):
             await ctx.respond(embed=discord.Embed(
@@ -70,7 +70,7 @@ class Bot:
                 color=Utils.get_latency_color(Utils.latency_ms(self.bot))
             ))
 
-        @self.bot.command(description="Returns the server IP address.", guild_ids=[self.GUILD_ID])
+        @self.bot.command(description="Returns the server IP address.")
         @Utils.log_command_usage
         async def ip(ctx):
             await ctx.respond(embed=discord.Embed(
@@ -79,7 +79,7 @@ class Bot:
                 color=discord.Color.blue()
             ))
 
-        @self.bot.command(description="Displays the bot's uptime.", guild_ids=[self.GUILD_ID])
+        @self.bot.command(description="Displays the bot's uptime.")
         @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.respond(embed=discord.Embed(
