@@ -1,7 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
-import functools
 import glob
 import logging
 import os
@@ -14,17 +13,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from src.utils import Utils
-
-
-def log_command_usage(func):
-    @functools.wraps(func)
-    async def wrapper(ctx, *args, **kwargs):
-        print(
-            f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})."
-        )
-        return await func(ctx, *args, **kwargs)
-
-    return wrapper
 
 
 class Bot:
@@ -73,7 +61,7 @@ class Bot:
 
     def setup_commands(self):
         @self.bot.command(description="Sends the bot's latency.", guild_ids=[self.GUILD_ID])
-        @log_command_usage
+        @Utils.log_command_usage
         async def ping(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Pong! 🏓",
@@ -82,7 +70,7 @@ class Bot:
             ))
 
         @self.bot.command(description="Returns the server IP address.", guild_ids=[self.GUILD_ID])
-        @log_command_usage
+        @Utils.log_command_usage
         async def ip(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Server IP Address",
