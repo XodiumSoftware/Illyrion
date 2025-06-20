@@ -1,28 +1,37 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
-import os
 
+import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-intents = discord.Intents.default()
-intents.message_content = True
+class Bot:
+    def __init__(self):
+        load_dotenv()
+        self.token = os.getenv('DISCORD_BOT_TOKEN')
+        if not self.token:
+            raise ValueError("DISCORD_BOT_TOKEN is not set in the .env file")
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+        intents = discord.Intents.default()
+        intents.message_content = True
 
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user}')
+        self.bot = commands.Bot(command_prefix='!', intents=intents)
+        self._register_handlers()
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send('Hello! I am your bot.')
+    def _register_handlers(self):
+        self.bot.event(self.on_ready)
+        self.bot.command()(self.hello)
 
-load_dotenv()
+    async def on_ready(self):
+        print(f'Logged in as {self.bot.user}')
 
-token = os.getenv('DISCORD_BOT_TOKEN')
-if not token:
-    raise ValueError("DISCORD_BOT_TOKEN is not set in the .env file")
+    @staticmethod
+    async def hello(ctx):
+        await ctx.send('Hello! I am your bot.')
 
-bot.run(token)
+    def run(self):
+        self.bot.run(self.token)
+
+if __name__ == "__main__":
+    Bot().run()
