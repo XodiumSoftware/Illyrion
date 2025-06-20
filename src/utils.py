@@ -30,3 +30,21 @@ class Utils:
             return await func(ctx, *args, **kwargs)
 
         return wrapper
+
+    @staticmethod
+    def format_uptime(duration):
+        days, remainder = divmod(duration.total_seconds(), 86400)
+        hours, remainder = divmod(remainder, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        parts = []
+        if days > 0:
+            parts.append(f"{int(days)}d")
+        if hours > 0:
+            parts.append(f"{int(hours)}h")
+        if minutes > 0:
+            parts.append(f"{int(minutes)}m")
+        if seconds > 0:
+            parts.append(f"{int(seconds)}s")
+
+        return " ".join(parts)

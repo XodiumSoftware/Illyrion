@@ -24,6 +24,7 @@ class Bot:
             raise ValueError("No TOKEN found in environment variables. Please set the TOKEN variable.")
         if not self.GUILD_ID:
             raise ValueError("No GUILD_ID found in environment variables. Please set the GUILD_ID variable.")
+        self.start_time = datetime.now()
         self.logger = logging.getLogger()
         self.bot = discord.Bot()
         self.setup_logging()
@@ -76,6 +77,15 @@ class Bot:
                 title="Server IP Address",
                 description="`illyria.xodium.org`",
                 color=discord.Color.blue()
+            ))
+
+        @self.bot.command(description="Displays the bot's uptime.", guild_ids=[self.GUILD_ID])
+        @Utils.log_command_usage
+        async def uptime(ctx):
+            await ctx.respond(embed=discord.Embed(
+                title="Bot Uptime",
+                description=f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`",
+                color=discord.Color.green()
             ))
 
 
