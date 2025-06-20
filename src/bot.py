@@ -1,6 +1,7 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
+import functools
 import glob
 import logging
 import os
@@ -13,6 +14,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from src.utils import Utils
+
+
+def log_command_usage(func):
+    @functools.wraps(func)
+    async def wrapper(ctx, *args, **kwargs):
+        print(
+            f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})."
+        )
+        return await func(ctx, *args, **kwargs)
+
+    return wrapper
 
 
 class Bot:
@@ -61,24 +73,22 @@ class Bot:
 
     def setup_commands(self):
         @self.bot.command(description="Sends the bot's latency.", guild_ids=[self.GUILD_ID])
+        @log_command_usage
         async def ping(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Pong! 🏓",
                 description=f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`",
                 color=Utils.get_latency_color(Utils.latency_ms(self.bot))
             ))
-            print(
-                f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
 
         @self.bot.command(description="Returns the server IP address.", guild_ids=[self.GUILD_ID])
+        @log_command_usage
         async def ip(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Server IP Address",
                 description="`illyria.xodium.org`",
                 color=discord.Color.blue()
             ))
-            print(
-                f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
 
 
 if __name__ == "__main__":
