@@ -8,9 +8,9 @@ from datetime import datetime
 from zipfile import ZipFile
 
 import discord
-from dotenv import load_dotenv
+import dotenv
 
-load_dotenv()
+dotenv.load_dotenv()
 
 from src.utils import Utils
 
@@ -61,7 +61,8 @@ class Bot:
             print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
 
     def setup_commands(self):
-        @self.bot.command(description="Sends the bot's latency.")
+        @self.bot.command(description="Sends the bot's latency.",
+                          default_member_permissions=discord.Permissions(administrator=True))
         @Utils.log_command_usage
         async def ping(ctx):
             await ctx.respond(embed=discord.Embed(
@@ -79,7 +80,8 @@ class Bot:
                 color=discord.Color.blue()
             ))
 
-        @self.bot.command(description="Displays the bot's uptime.")
+        @self.bot.command(description="Displays the bot's uptime.",
+                          default_member_permissions=discord.Permissions(administrator=True))
         @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.respond(embed=discord.Embed(
