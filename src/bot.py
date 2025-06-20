@@ -1,5 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
+import glob
 import logging
 import os
 from datetime import datetime
@@ -28,6 +29,13 @@ class Bot:
             with ZipFile(zip_path, "w") as zipf:
                 zipf.write(latest_log_path, arcname="latest.log")
             os.remove(latest_log_path)
+            zip_files = sorted(
+                glob.glob("logs/*.zip"),
+                key=os.path.getmtime,
+                reverse=True
+            )
+            for old_zip in zip_files[10:]:
+                os.remove(old_zip)
 
         logging.basicConfig(
             filename=latest_log_path,
