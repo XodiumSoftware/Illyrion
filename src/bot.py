@@ -9,7 +9,7 @@ from zipfile import ZipFile
 
 import discord
 import dotenv
-from discord.ext.commands import cooldown
+import psutil
 
 dotenv.load_dotenv()
 
@@ -84,13 +84,26 @@ class Bot:
 
         @self.bot.command(description="Displays the bot's uptime.",
                           default_member_permissions=discord.Permissions(administrator=True))
-        @cooldown(1, 10)
         @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Bot Uptime",
                 description=f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`",
                 color=discord.Color.green()
+            ))
+
+        @self.bot.command(description="Displays the bot's metrics.",
+                          default_member_permissions=discord.Permissions(administrator=True))
+        @Utils.log_command_usage
+        async def metrics(ctx):
+            await ctx.respond(embed=discord.Embed(
+                title="Metrics",
+                description=(
+                    f"Latency is `{Utils.latency_ms(ctx.bot):.2f} ms`\n"
+                    f"CPU Usage: `{psutil.cpu_percent()}%`\n"
+                    f"Memory Usage: `{psutil.virtual_memory().percent}%`"
+                ),
+                color=discord.Color.blue()
             ))
 
 
