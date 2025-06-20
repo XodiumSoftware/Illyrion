@@ -10,11 +10,20 @@ from zipfile import ZipFile
 import discord
 from dotenv import load_dotenv
 
+load_dotenv()
+
 from src.utils import Utils
 
 
 class Bot:
+    GUILD_ID = os.environ.get("GUILD_ID")
+    TOKEN = os.environ.get("TOKEN")
+
     def __init__(self):
+        if not self.TOKEN:
+            raise ValueError("No TOKEN found in environment variables. Please set the TOKEN variable.")
+        if not self.GUILD_ID:
+            raise ValueError("No GUILD_ID found in environment variables. Please set the GUILD_ID variable.")
         self.logger = logging.getLogger()
         self.bot = discord.Bot()
         self.setup_logging()
@@ -51,7 +60,7 @@ class Bot:
             print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
 
     def setup_commands(self):
-        @self.bot.command(description="Sends the bot's latency.")
+        @self.bot.command(description="Sends the bot's latency.", guild_ids=[self.GUILD_ID])
         async def ping(ctx):
             await ctx.respond(embed=discord.Embed(
                 title="Pong! 🏓",
@@ -61,13 +70,16 @@ class Bot:
             print(
                 f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
 
-    def run(self):
-        load_dotenv()
-        token = os.environ.get("TOKEN")
-        if not token:
-            raise ValueError("No TOKEN found in environment variables. Please set the TOKEN variable.")
-        self.bot.run(token)
+        @self.bot.command(description="Returns the server IP address.", guild_ids=[self.GUILD_ID])
+        async def ip(ctx):
+            await ctx.respond(embed=discord.Embed(
+                title="Server IP Address",
+                description="`illyria.xodium.org`",
+                color=discord.Color.blue()
+            ))
+            print(
+                f"[LOG] @{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id}).")
 
 
 if __name__ == "__main__":
-    Bot().run()
+    Bot().bot.run(Bot.TOKEN)
