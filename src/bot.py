@@ -68,7 +68,7 @@ class Bot:
         async def ping(ctx):
             await ctx.send_response(embed=discord.Embed(
                 title="Pong! 🏓",
-                description=f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`",
+                description=f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`",
                 color=Utils.get_latency_color(Utils.latency_ms(self.bot))
             ), ephemeral=True)
 
@@ -98,7 +98,7 @@ class Bot:
             await ctx.send_response(embed=discord.Embed(
                 title="📈 Metrics",
                 description=(
-                    f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`\n"
+                    f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
                     f"Memory Usage: `{psutil.virtual_memory().percent}%`"
                 ),
@@ -111,6 +111,19 @@ class Bot:
             await ctx.send_response(embed=discord.Embed(
                 title="ℹ️ Server Version:",
                 description="`1.21.6`",
+                color=discord.Color.blue()
+            ))
+
+        @self.bot.command(description="Displays the link for color coding.")
+        @Utils.log_command_usage
+        async def mm(ctx):
+            await ctx.send_response(embed=discord.Embed(
+                title="ℹ️ Color Coding:",
+                description=(
+                    "Website: `https://www.birdflop.com/resources/rgb/`\n"
+                    "Color Format: `MiniMessage`\n"
+                    "Usage: Play with the colors and then copy the output and paste it into the chat."
+                ),
                 color=discord.Color.blue()
             ))
 
