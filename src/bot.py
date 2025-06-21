@@ -18,7 +18,8 @@ class Bot:
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
     """
 
-    CONFIG_FILE = os.path.join(os.path.dirname(__file__), "config.json")
+    CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
+    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "logs")
 
     def __init__(self):
         self.config = self.setup_config()
@@ -33,24 +34,25 @@ class Bot:
             raise ValueError(
                 "No GUILD_ID found in environment variables. Please set the GUILD_ID variable."
             )
+
         self.start_time = datetime.now()
         self.logger = logging.getLogger()
         self.bot = discord.AutoShardedBot(debug_guilds=[int(self.GUILD_ID)])
-        Utils.setup_logging("logs", "latest.log", 10, logging.INFO)
+        Utils.setup_logging(self.LOGGING_PATH, "latest.log", 10, logging.INFO)
         self.setup_events()
         self.setup_commands()
         self.bot.run(self.TOKEN)
 
     def setup_config(self):
-        if not os.path.exists(self.CONFIG_FILE):
-            with open(self.CONFIG_FILE, "w") as config_file:
+        if not os.path.exists(self.CONFIG_PATH):
+            with open(self.CONFIG_PATH, "w") as config_file:
                 json.dump(DEFAULT_CONFIG, config_file, indent=4)
             print(
-                f"Configuration file '{self.CONFIG_FILE}' created. Please update it with your GUILD_ID and TOKEN."
+                f"Configuration file '{self.CONFIG_PATH}' created. Please update it with your GUILD_ID and TOKEN."
             )
             exit()
 
-        with open(self.CONFIG_FILE, "r") as config_file:
+        with open(self.CONFIG_PATH, "r") as config_file:
             return json.load(config_file)
 
     def setup_events(self):
