@@ -86,7 +86,7 @@ class Bot:
         @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.send_response(embed=discord.Embed(
-                title="Bot Uptime",
+                title="⌛ Bot Uptime",
                 description=f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`",
                 color=discord.Color.green()
             ), ephemeral=True)
@@ -96,7 +96,7 @@ class Bot:
         @Utils.log_command_usage
         async def metrics(ctx):
             await ctx.send_response(embed=discord.Embed(
-                title="Metrics",
+                title="📈 Metrics",
                 description=(
                     f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
