@@ -1,11 +1,9 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
-import glob
 import logging
 import os
 from datetime import datetime
-from zipfile import ZipFile
 
 import discord
 import dotenv
@@ -17,6 +15,9 @@ from src.utils import Utils
 
 
 class Bot:
+    """
+    Main class for the Discord bot, handling initialization, event setup, and command definitions.
+    """
     GUILD_ID = os.environ.get("GUILD_ID")
     TOKEN = os.environ.get("TOKEN")
 
@@ -28,38 +29,14 @@ class Bot:
         self.start_time = datetime.now()
         self.logger = logging.getLogger()
         self.bot = discord.Bot(debug_guilds=[int(self.GUILD_ID)])
-        self.setup_logging()
+        Utils.setup_logging("logs", "latest.log", 10, logging.INFO)
         self.setup_events()
         self.setup_commands()
-
-    @staticmethod
-    def setup_logging():
-        os.makedirs("logs", exist_ok=True)
-        latest_log_path = "logs/latest.log"
-        if os.path.exists(latest_log_path):
-            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            zip_path = f"logs/{timestamp}.zip"
-            with ZipFile(zip_path, "w") as zipf:
-                zipf.write(latest_log_path, arcname="latest.log")
-            os.remove(latest_log_path)
-            zip_files = sorted(
-                glob.glob("logs/*.zip"),
-                key=os.path.getmtime,
-                reverse=True
-            )
-            for old_zip in zip_files[10:]:
-                os.remove(old_zip)
-        logging.basicConfig(
-            filename=latest_log_path,
-            level=logging.INFO,
-            format="%(asctime)s [%(levelname)s] %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
 
     def setup_events(self):
         @self.bot.event
         async def on_ready():
-            print(f"[LOG] {self.bot.user} (ID={self.bot.user.id}) is ready and online!")
+            self.logger.info(f"{self.bot.user} (ID={self.bot.user.id}) is ready and online!")
 
     def setup_commands(self):
         @self.bot.command(description="Sends the bot's latency.",
