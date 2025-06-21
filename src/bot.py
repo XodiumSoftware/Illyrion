@@ -19,7 +19,7 @@ class Bot:
     """
 
     CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
-    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "logs")
+    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "logs", "latest.log")
 
     def __init__(self):
         self.config = self.setup_config()
@@ -38,7 +38,7 @@ class Bot:
         self.start_time = datetime.now()
         self.logger = logging.getLogger()
         self.bot = discord.AutoShardedBot(debug_guilds=[int(self.GUILD_ID)])
-        Utils.setup_logging(self.LOGGING_PATH, "latest.log", 10, logging.INFO)
+        Utils.setup_logging(self.LOGGING_PATH, 10, logging.INFO)
         self.setup_events()
         self.setup_commands()
         self.bot.run(self.TOKEN)

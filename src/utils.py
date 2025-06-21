@@ -98,27 +98,26 @@ class Utils:
         return " ".join(parts)
 
     @staticmethod
-    def setup_logging(log_dir, log_file, max_archived_logs, log_level):
+    def setup_logging(logging_path, max_archived_logs, log_level):
         """
         Set up logging for the application, including archiving old logs.
 
         Args:
-            log_dir (str): The directory where logs are stored.
-            log_file (str): The name of the current log file.
+            logging_path (str): The full path to the current log file.
             max_archived_logs (int): The maximum number of archived logs to keep.
             log_level (int): The logging level (e.g., logging.INFO).
 
         Returns:
             None
         """
+        log_dir = os.path.dirname(logging_path)
         os.makedirs(log_dir, exist_ok=True)
-        latest_log_path = os.path.join(log_dir, log_file)
-        if os.path.exists(latest_log_path):
+        if os.path.exists(logging_path):
             timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
             zip_path = os.path.join(log_dir, f"{timestamp}.zip")
             with ZipFile(zip_path, "w") as zipf:
-                zipf.write(latest_log_path, arcname=log_file)
-            os.remove(latest_log_path)
+                zipf.write(logging_path, arcname=os.path.basename(logging_path))
+            os.remove(logging_path)
             zip_files = sorted(
                 glob.glob(os.path.join(log_dir, "*.zip")),
                 key=os.path.getmtime,
@@ -131,7 +130,7 @@ class Utils:
         logger.setLevel(log_level)
 
         # File handler
-        file_handler = logging.FileHandler(latest_log_path)
+        file_handler = logging.FileHandler(logging_path)
         file_handler.setLevel(log_level)
         file_handler.setFormatter(
             logging.Formatter(
