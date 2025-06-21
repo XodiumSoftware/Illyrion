@@ -5,9 +5,9 @@ description = " Discord Bot for Personal use"
 requires-python = ">=3.13"
 dependencies = [
     "py-cord",
- "python-dotenv",
- "audioop-lts",
- "psutil>=7.0.0",
+    "python-dotenv",
+    "audioop-lts",
+    "psutil>=7.0.0",
 ]
 
 authors = [{ name = "Xodium", email = "info@xodium.org" }]

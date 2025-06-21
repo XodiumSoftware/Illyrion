@@ -172,7 +172,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "audioop-lts" },
-    { name = "psutil", specifier = ">=7.0.0" },
+    { name = "psutil" },
     { name = "py-cord" },
     { name = "python-dotenv" },
 ]
