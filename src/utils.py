@@ -22,7 +22,7 @@ class Utils:
         Calculate the latency of the bot in milliseconds.
 
         Args:
-            bot (discord.Bot): The Discord bot instance.
+            bot (discord.AutoShardedBot): The Discord bot instance.
 
         Returns:
             float: The latency in milliseconds.
@@ -120,7 +120,7 @@ class Utils:
             zip_files = sorted(
                 glob.glob(os.path.join(log_dir, "*.zip")),
                 key=os.path.getmtime,
-                reverse=True
+                reverse=True,
             )
             for old_zip in zip_files[max_archived_logs:]:
                 os.remove(old_zip)
@@ -131,11 +131,19 @@ class Utils:
         # File handler
         file_handler = logging.FileHandler(latest_log_path)
         file_handler.setLevel(log_level)
-        file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))
+        file_handler.setFormatter(
+            logging.Formatter(
+                "%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"
+            )
+        )
         logger.addHandler(file_handler)
 
         # Console handler
         console_handler = logging.StreamHandler()
         console_handler.setLevel(log_level)
-        console_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))
+        console_handler.setFormatter(
+            logging.Formatter(
+                "%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"
+            )
+        )
         logger.addHandler(console_handler)
