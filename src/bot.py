@@ -105,6 +105,15 @@ class Bot:
                 color=discord.Color.blue()
             ), ephemeral=True)
 
+        @self.bot.command(description="Displays the server version.")
+        @Utils.log_command_usage
+        async def version(ctx):
+            await ctx.send_response(embed=discord.Embed(
+                title="Version",
+                description=f"Server version: `1.21.6`",
+                color=discord.Color.blue()
+            ))
+
 
 if __name__ == "__main__":
     Bot().bot.run(Bot.TOKEN)
