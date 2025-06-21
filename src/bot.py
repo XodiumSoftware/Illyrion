@@ -98,7 +98,7 @@ class Bot:
             await ctx.send_response(embed=discord.Embed(
                 title="Metrics",
                 description=(
-                    f"Latency is `{Utils.latency_ms(ctx.bot):.2f} ms`\n"
+                    f"Latency is `{Utils.latency_ms(self.bot):.2f} ms`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
                     f"Memory Usage: `{psutil.virtual_memory().percent}%`"
                 ),
