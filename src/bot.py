@@ -13,6 +13,7 @@ from src.utils import Utils
 
 dotenv.load_dotenv()
 
+
 class Bot:
     """
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
@@ -45,7 +46,7 @@ class Bot:
             )
 
     def setup_commands(self):
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(
             description="Sends the bot's latency.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -60,7 +61,7 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(description="Returns the server IP address.")
         async def ip(ctx):
             await ctx.send_response(
@@ -71,7 +72,7 @@ class Bot:
                 )
             )
 
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(
             description="Displays the bot's uptime.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -86,7 +87,7 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(
             description="Displays the bot's metrics.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -105,7 +106,7 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(description="Displays the server version.")
         async def version(ctx):
             await ctx.send_response(
@@ -116,7 +117,7 @@ class Bot:
                 )
             )
 
-        @Utils.log_command_usage
+        @Utils.log_command
         @self.bot.command(description="Displays the link for color coding.")
         async def mm(ctx):
             await ctx.send_response(

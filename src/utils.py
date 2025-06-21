@@ -48,7 +48,7 @@ class Utils:
             return discord.Color.red()
 
     @staticmethod
-    def log_command_usage(command):
+    def log_command(command):
         """
         Decorator to log the usage of bot commands, reading directly from the command object.
 
