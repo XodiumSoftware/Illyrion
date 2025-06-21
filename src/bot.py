@@ -3,17 +3,15 @@
 
 import logging
 import os
+from datetime import datetime
 
 import discord
 import dotenv
 import psutil
 
-dotenv.load_dotenv()
-
-from datetime import datetime
-
 from src.utils import Utils
 
+dotenv.load_dotenv()
 
 class Bot:
     """
