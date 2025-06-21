@@ -45,11 +45,11 @@ class Bot:
             )
 
     def setup_commands(self):
+        @Utils.log_command_usage
         @self.bot.command(
             description="Sends the bot's latency.",
             default_member_permissions=discord.Permissions(administrator=True),
         )
-        @Utils.log_command_usage
         async def ping(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
@@ -60,8 +60,8 @@ class Bot:
                 ephemeral=True,
             )
 
-        @self.bot.command(description="Returns the server IP address.")
         @Utils.log_command_usage
+        @self.bot.command(description="Returns the server IP address.")
         async def ip(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
@@ -71,11 +71,11 @@ class Bot:
                 )
             )
 
+        @Utils.log_command_usage
         @self.bot.command(
             description="Displays the bot's uptime.",
             default_member_permissions=discord.Permissions(administrator=True),
         )
-        @Utils.log_command_usage
         async def uptime(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
@@ -86,11 +86,11 @@ class Bot:
                 ephemeral=True,
             )
 
+        @Utils.log_command_usage
         @self.bot.command(
             description="Displays the bot's metrics.",
             default_member_permissions=discord.Permissions(administrator=True),
         )
-        @Utils.log_command_usage
         async def metrics(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
@@ -105,8 +105,8 @@ class Bot:
                 ephemeral=True,
             )
 
-        @self.bot.command(description="Displays the server version.")
         @Utils.log_command_usage
+        @self.bot.command(description="Displays the server version.")
         async def version(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
@@ -116,8 +116,8 @@ class Bot:
                 )
             )
 
-        @self.bot.command(description="Displays the link for color coding.")
         @Utils.log_command_usage
+        @self.bot.command(description="Displays the link for color coding.")
         async def mm(ctx):
             await ctx.send_response(
                 embed=discord.Embed(

@@ -48,25 +48,27 @@ class Utils:
             return discord.Color.red()
 
     @staticmethod
-    def log_command_usage(func):
+    def log_command_usage(command):
         """
-        Decorator to log the usage of bot commands.
+        Decorator to log the usage of bot commands, reading directly from the command object.
 
         Args:
-            func (function): The command function to be wrapped.
+            command (discord.ext.commands.Command): The command object.
 
         Returns:
             function: The wrapped function with logging functionality.
         """
+        original_callback = command.callback
 
-        @functools.wraps(func)
+        @functools.wraps(original_callback)
         async def wrapper(ctx, *args, **kwargs):
             logging.info(
                 f"@{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})"
             )
-            return await func(ctx, *args, **kwargs)
+            return await original_callback(ctx, *args, **kwargs)
 
-        return wrapper
+        command.callback = wrapper
+        return command
 
     @staticmethod
     def format_uptime(duration):
