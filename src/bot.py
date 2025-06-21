@@ -1,6 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
-
+import json
 import logging
 import os
 from datetime import datetime
@@ -12,6 +12,7 @@ import psutil
 from src.utils import Utils
 
 dotenv.load_dotenv()
+DEFAULT_CONFIG = {"GUILD_ID": "", "TOKEN": ""}
 
 
 class Bot:
@@ -19,10 +20,13 @@ class Bot:
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
     """
 
-    GUILD_ID = os.environ.get("GUILD_ID")
-    TOKEN = os.environ.get("TOKEN")
+    CONFIG_FILE = os.path.join(os.path.dirname(__file__), "config.json")
 
     def __init__(self):
+        self.config = self.setup_config()
+        self.GUILD_ID = self.config.get("GUILD_ID")
+        self.TOKEN = self.config.get("TOKEN")
+
         if not self.TOKEN:
             raise ValueError(
                 "No TOKEN found in environment variables. Please set the TOKEN variable."
@@ -37,6 +41,19 @@ class Bot:
         Utils.setup_logging("logs", "latest.log", 10, logging.INFO)
         self.setup_events()
         self.setup_commands()
+        self.bot.run(self.TOKEN)
+
+    def setup_config(self):
+        if not os.path.exists(self.CONFIG_FILE):
+            with open(self.CONFIG_FILE, "w") as config_file:
+                json.dump(DEFAULT_CONFIG, config_file, indent=4)
+            print(
+                f"Configuration file '{self.CONFIG_FILE}' created. Please update it with your GUILD_ID and TOKEN."
+            )
+            exit()
+
+        with open(self.CONFIG_FILE, "r") as config_file:
+            return json.load(config_file)
 
     def setup_events(self):
         @self.bot.event
@@ -134,4 +151,4 @@ class Bot:
 
 
 if __name__ == "__main__":
-    Bot().bot.run(Bot.TOKEN)
+    Bot()
