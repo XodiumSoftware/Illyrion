@@ -76,7 +76,7 @@ class Bot:
         @Utils.log_command_usage
         async def ip(ctx):
             await ctx.send_response(embed=discord.Embed(
-                title="Server IP Address",
+                title="ℹ️ Server IP:",
                 description="`illyria.xodium.org`",
                 color=discord.Color.blue()
             ))
@@ -109,8 +109,8 @@ class Bot:
         @Utils.log_command_usage
         async def version(ctx):
             await ctx.send_response(embed=discord.Embed(
-                title="Version",
-                description=f"Server version: `1.21.6`",
+                title="ℹ️ Server Version:",
+                description="`1.21.6`",
                 color=discord.Color.blue()
             ))
 
