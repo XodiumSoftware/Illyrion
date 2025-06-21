@@ -6,12 +6,10 @@ import os
 from datetime import datetime
 
 import discord
-import dotenv
 import psutil
 
 from src.utils import Utils
 
-dotenv.load_dotenv()
 DEFAULT_CONFIG = {"GUILD_ID": "", "TOKEN": ""}
 
 
