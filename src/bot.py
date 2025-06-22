@@ -6,7 +6,6 @@ from datetime import datetime
 
 import discord
 import dotenv
-import psutil
 
 from src.utils import Utils
 
@@ -40,8 +39,20 @@ class Bot:
         Utils.setup_logging(self.LOGGING_PATH, 10, logging.INFO)
 
         self.setup_events()
-        self.setup_commands()
+        self.load_cogs()
         self.bot.run(self.TOKEN)
+
+    def load_cogs(self):
+        """
+        Dynamically load all cogs from the 'src/cogs' directory.
+        """
+        for filename in os.listdir("./src/cogs"):
+            if filename.endswith(".py"):
+                try:
+                    self.bot.load_extension(f"src.cogs.{filename[:-3]}")
+                    self.logger.info(f"Loaded cog: {filename}")
+                except Exception as e:
+                    self.logger.error(f"Failed to load cog {filename}: {e}")
 
     def setup_events(self):
         @self.bot.event
@@ -54,88 +65,6 @@ class Bot:
         async def on_before_invoke(ctx: discord.ApplicationContext):
             self.logger.info(
                 f"@{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})"
-            )
-
-
-    def setup_commands(self):
-        @self.bot.command(
-            description="Sends the bot's latency.",
-            default_member_permissions=discord.Permissions(administrator=True),
-        )
-        async def ping(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="Pong! 🏓",
-                    description=f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`",
-                    color=Utils.get_latency_color(Utils.latency_ms(self.bot)),
-                ),
-                ephemeral=True,
-            )
-
-        @self.bot.command(description="Returns the server IP address.")
-        async def ip(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="ℹ️ Server IP:",
-                    description="`illyria.xodium.org`",
-                    color=discord.Color.blue(),
-                )
-            )
-
-        @self.bot.command(
-            description="Displays the bot's uptime.",
-            default_member_permissions=discord.Permissions(administrator=True),
-        )
-        async def uptime(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="⌛ Bot Uptime",
-                    description=f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`",
-                    color=discord.Color.green(),
-                ),
-                ephemeral=True,
-            )
-
-        @self.bot.command(
-            description="Displays the bot's metrics.",
-            default_member_permissions=discord.Permissions(administrator=True),
-        )
-        async def metrics(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="📈 Metrics",
-                    description=(
-                        f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`\n"
-                        f"CPU Usage: `{psutil.cpu_percent()}%`\n"
-                        f"Memory Usage: `{psutil.virtual_memory().percent}%`"
-                    ),
-                    color=discord.Color.blue(),
-                ),
-                ephemeral=True,
-            )
-
-        @self.bot.command(description="Displays the server version.")
-        async def version(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="ℹ️ Server Version:",
-                    description="`1.21.6`",
-                    color=discord.Color.blue(),
-                )
-            )
-
-        @self.bot.command(description="Displays the link for color coding.")
-        async def cc(ctx):
-            await ctx.send_response(
-                embed=discord.Embed(
-                    title="ℹ️ Color Coding:",
-                    description=(
-                        "Website: `https://www.birdflop.com/resources/rgb/`\n"
-                        "Color Format: `MiniMessage`\n"
-                        "Usage: Play with the colors and then copy the output and paste it into the chat."
-                    ),
-                    color=discord.Color.blue(),
-                )
             )
 
 
