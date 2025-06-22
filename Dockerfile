@@ -1,8 +1,9 @@
 FROM python:3.13-slim
-WORKDIR /app
+VOLUME ["/data"]
+WORKDIR /data
 COPY src/ ./src/
 COPY pyproject.toml ./
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/data
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir build && \
     python -m build && \
