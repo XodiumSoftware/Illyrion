@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 VOLUME ["/data"]
 WORKDIR /data
-COPY src/ ./src/
+COPY src/ /data/src/
 COPY pyproject.toml ./
 ENV PYTHONPATH=/data
 RUN pip install --upgrade pip && \
