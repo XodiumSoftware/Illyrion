@@ -11,8 +11,5 @@ dependencies = [
 
 authors = [{ name = "Xodium", email = "info@xodium.org" }]
 license = "AGPL-3.0"
-license-file = "LICENSE.md"
 readme = "README.md"
 keywords = ["discord", "bot", "personal"]
-homepage = "https://xodium.org"
-repository = "https://github.com/XodiumSoftware/Illyrion"
