@@ -10,5 +10,4 @@ RUN pip install --upgrade pip && \
     useradd -m illyrion && \
     chown -R illyrion /app
 USER illyrion
-EXPOSE 8080
 CMD ["python", "src/bot.py"]
