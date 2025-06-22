@@ -10,6 +10,7 @@ permissions: { contents: read, packages: write }
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    environment: { name: "${{ github.ref_name }}", url: "${{ steps.push_docker_image.outputs.url }}" }
     steps:
       - id: checkout
         name: Checkout
@@ -23,14 +24,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - id: extract_version
+        name: Extract version from pyproject.toml
+        run: |
+          VERSION=$(grep -Po '(?<=version = ")[^"]*' pyproject.toml)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - id: build_docker_image
         name: Build Docker image
         run: |
           REPO_NAME=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          docker build -t ghcr.io/$REPO_NAME/illyrion:latest .
+          docker build -t ghcr.io/$REPO_NAME/illyrion:{{ env.VERSION }} .
 
       - id: push_docker_image
         name: Push Docker image
         run: |
           REPO_NAME=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          docker push ghcr.io/$REPO_NAME/illyrion:latest
+          IMAGE_URL=ghcr.io/$REPO_NAME/illyrion:${{ env.VERSION }}
+          docker push $IMAGE_URL
+          echo "::set-output name=url::$IMAGE_URL"
