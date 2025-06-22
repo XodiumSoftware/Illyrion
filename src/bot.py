@@ -136,7 +136,7 @@ class Bot:
 
         @Utils.log_command
         @self.bot.command(description="Displays the link for color coding.")
-        async def mm(ctx):
+        async def cc(ctx):
             await ctx.send_response(
                 embed=discord.Embed(
                     title="ℹ️ Color Coding:",
