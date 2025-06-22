@@ -193,5 +193,6 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Bot specific files
 logs
-src/config.json
+config.json

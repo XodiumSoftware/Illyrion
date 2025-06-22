@@ -18,8 +18,8 @@ class Bot:
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
     """
 
-    CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.json")
-    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "logs", "latest.log")
+    CONFIG_PATH = os.path.join(os.path.dirname(__file__), "data", "config.json")
+    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "data", "logs", "latest.log")
 
     def __init__(self):
         self.config = self.setup_config()
@@ -44,6 +44,7 @@ class Bot:
         self.bot.run(self.TOKEN)
 
     def setup_config(self):
+        os.makedirs(os.path.dirname(self.CONFIG_PATH), exist_ok=True)
         if not os.path.exists(self.CONFIG_PATH):
             with open(self.CONFIG_PATH, "w") as config_file:
                 json.dump(DEFAULT_CONFIG, config_file, indent=4)
