@@ -1,0 +1,32 @@
+name: Xodium CI/CD - Docker Image Build & Publish
+run-name: "Xodium CI/CD - Docker Image Build & Publish"
+
+on: { push: { branches: [ main ] } }
+
+concurrency: { group: "${{ github.workflow }}-${{ github.ref }}", cancel-in-progress: true }
+
+permissions: { contents: read, packages: write }
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@main
+
+      - id: login_docker_registry
+        name: Log in to GitHub Container Registry
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: build_docker_image
+        name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/illyrion:latest .
+
+      - id: push_docker_image
+        name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/illyrion:latest
