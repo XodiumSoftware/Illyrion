@@ -55,6 +55,9 @@ class Bot:
                     self.logger.error(f"Failed to load cog {filename}: {e}")
 
     def setup_events(self):
+        """
+        Set up event handlers for the bot, including on_ready and before_invoke.
+        """
         @self.bot.event
         async def on_ready():
             self.logger.info(
