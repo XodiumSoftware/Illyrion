@@ -1,7 +1,7 @@
 name: Xodium CI/CD - Docker Image Build & Publish
 run-name: "Xodium CI/CD - Docker Image Build & Publish"
 
-on: { push: { branches: [ main ] } }
+on: { push: { branches: [ dev ] } }
 
 concurrency: { group: "${{ github.workflow }}-${{ github.ref }}", cancel-in-progress: true }
 
