@@ -12,12 +12,13 @@ from src.utils import Utils
 
 dotenv.load_dotenv()
 
+
 class Bot:
     """
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
     """
 
-    LOGGING_PATH = os.path.join(os.path.dirname(__file__), "data", "logs", "latest.log")
+    LOGGING_PATH = "/app/data/logs/latest.log"
 
     def __init__(self):
         self.GUILD_ID = os.getenv("GUILD_ID")
