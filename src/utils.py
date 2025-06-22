@@ -1,7 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
-import functools
 import glob
 import logging
 import os
@@ -46,29 +45,6 @@ class Utils:
             return discord.Color.gold()
         else:
             return discord.Color.red()
-
-    @staticmethod
-    def log_command(command):
-        """
-        Decorator to log the usage of bot commands, reading directly from the command object.
-
-        Args:
-            command (discord.ext.commands.Command): The command object.
-
-        Returns:
-            function: The wrapped function with logging functionality.
-        """
-        original_callback = command.callback
-
-        @functools.wraps(original_callback)
-        async def wrapper(ctx, *args, **kwargs):
-            logging.info(
-                f"@{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})"
-            )
-            return await original_callback(ctx, *args, **kwargs)
-
-        command.callback = wrapper
-        return command
 
     @staticmethod
     def format_uptime(duration):

@@ -48,8 +48,14 @@ class Bot:
                 f"{self.bot.user} (ID={self.bot.user.id}) is ready and online!"
             )
 
+        @self.bot.before_invoke
+        async def on_before_invoke(ctx: discord.ApplicationContext):
+            self.logger.info(
+                f"@{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})"
+            )
+
+
     def setup_commands(self):
-        @Utils.log_command
         @self.bot.command(
             description="Sends the bot's latency.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -64,7 +70,6 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command
         @self.bot.command(description="Returns the server IP address.")
         async def ip(ctx):
             await ctx.send_response(
@@ -75,7 +80,6 @@ class Bot:
                 )
             )
 
-        @Utils.log_command
         @self.bot.command(
             description="Displays the bot's uptime.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -90,7 +94,6 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command
         @self.bot.command(
             description="Displays the bot's metrics.",
             default_member_permissions=discord.Permissions(administrator=True),
@@ -109,7 +112,6 @@ class Bot:
                 ephemeral=True,
             )
 
-        @Utils.log_command
         @self.bot.command(description="Displays the server version.")
         async def version(ctx):
             await ctx.send_response(
@@ -120,7 +122,6 @@ class Bot:
                 )
             )
 
-        @Utils.log_command
         @self.bot.command(description="Displays the link for color coding.")
         async def cc(ctx):
             await ctx.send_response(
