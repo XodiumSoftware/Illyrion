@@ -36,7 +36,9 @@ class Bot:
         self.start_time = datetime.now()
         self.logger = logging.getLogger()
         self.bot = discord.AutoShardedBot(debug_guilds=[int(self.GUILD_ID)])
+
         Utils.setup_logging(self.LOGGING_PATH, 10, logging.INFO)
+
         self.setup_events()
         self.setup_commands()
         self.bot.run(self.TOKEN)

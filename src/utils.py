@@ -104,23 +104,18 @@ class Utils:
 
         logger = logging.getLogger()
         logger.setLevel(log_level)
+        formatter = logging.Formatter(
+            "%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"
+        )
 
         # File handler
         file_handler = logging.FileHandler(logging_path)
         file_handler.setLevel(log_level)
-        file_handler.setFormatter(
-            logging.Formatter(
-                "%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"
-            )
-        )
+        file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 
         # Console handler
         console_handler = logging.StreamHandler()
         console_handler.setLevel(log_level)
-        console_handler.setFormatter(
-            logging.Formatter(
-                "%(asctime)s [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"
-            )
-        )
+        console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
