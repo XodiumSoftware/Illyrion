@@ -18,7 +18,7 @@ class Bot:
     Main class for the Discord bot, handling initialization, event setup, and command definitions.
     """
 
-    LOGGING_PATH = "/app/data/logs/latest.log"
+    LOGGING_PATH = "/data/logs/latest.log"
 
     def __init__(self):
         self.GUILD_ID = os.getenv("GUILD_ID")
