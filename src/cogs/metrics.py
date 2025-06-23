@@ -46,7 +46,7 @@ class Metrics(commands.Cog):
                     f"**Statistics**\n"
                     f"Guilds: `{len(self.bot.guilds)}`\n"
                     f"Users: `{len(self.bot.users)}`\n"
-                    f"discord.py Version: `v{discord.__version__}`"
+                    f"discord.py: `v{discord.__version__}`"
                 ),
                 color=discord.Color.blue(),
             ),
