@@ -28,7 +28,7 @@ class Metrics(commands.Cog):
                 title="📈 Metrics",
                 description=(
                     f"Latency: `{self.bot.latency_ms:.2f} ms`\n"
-                    f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`\n"
+                    f"Uptime: `{Utils.format_uptime(datetime.now() - self.bot.start_time)}`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
                     f"Memory Usage: `{psutil.virtual_memory().percent}%`\n"
                 ),
