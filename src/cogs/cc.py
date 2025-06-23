@@ -19,7 +19,7 @@ class CC(commands.Cog):
                 description=(
                     "Website: https://www.birdflop.com/resources/rgb/\n"
                     "Color Format: `MiniMessage`\n"
-                    "Usage: https://www.youtube.com/watch?v=bOqqjpUcVmU"
+                    "Usage: https://youtu.be/F43yRnvHICA"
                 ),
                 color=discord.Colour.blue(),
             )
