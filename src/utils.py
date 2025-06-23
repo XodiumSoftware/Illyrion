@@ -7,31 +7,11 @@ import os
 from datetime import datetime
 from zipfile import ZipFile
 
-import discord
-
 
 class Utils:
     """
     Utility class containing various helper methods for the Discord bot.
     """
-
-    @staticmethod
-    def get_latency_color(latency_ms):
-        """
-        Determine the color based on the bot's latency.
-
-        Args:
-            latency_ms (float): The latency in milliseconds.
-
-        Returns:
-            discord.Color: Green for low latency, gold for moderate latency, and red for high latency.
-        """
-        if latency_ms < 100:
-            return discord.Color.green()
-        elif latency_ms < 200:
-            return discord.Color.gold()
-        else:
-            return discord.Color.red()
 
     @staticmethod
     def format_uptime(duration):
