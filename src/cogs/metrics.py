@@ -1,5 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
+
 import platform
 import sys
 from datetime import datetime
@@ -12,9 +13,7 @@ from src.utils import Utils
 
 
 class Metrics(commands.Cog):
-    """
-    A cog for handling Metrics-related commands.
-    """
+    """A cog for handling Metrics-related commands."""
 
     def __init__(self, bot):
         self.bot = bot

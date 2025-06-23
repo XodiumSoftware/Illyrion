@@ -9,9 +9,7 @@ from zipfile import ZipFile
 
 
 class Utils:
-    """
-    Utility class containing various helper methods for the Discord bot.
-    """
+    """Utility class containing various helper methods for the Discord bot."""
 
     @staticmethod
     def format_uptime(duration):

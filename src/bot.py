@@ -13,9 +13,7 @@ dotenv.load_dotenv()
 
 
 class Bot(discord.AutoShardedBot):
-    """
-    Main class for the Discord bot, handling initialization, event setup, and command definitions.
-    """
+    """Main class for the Discord bot, handling initialization, event setup, and command definitions."""
 
     LOGGING_PATH = "/data/logs/latest.log"
     if not (TOKEN := os.getenv("TOKEN")):
@@ -38,18 +36,14 @@ class Bot(discord.AutoShardedBot):
         self._before_invoke = self.on_before_invoke
 
         self.load_cogs()
-        
+
     @property
     def latency_ms(self) -> float:
-        """
-        The latency of the bot in milliseconds.
-        """
+        """The latency of the bot in milliseconds."""
         return self.latency * 1000
 
     def load_cogs(self):
-        """
-        Dynamically load all cogs from the 'src/cogs' directory.
-        """
+        """Dynamically load all cogs from the 'src/cogs' directory."""
         for filename in os.listdir("./src/cogs"):
             if filename.endswith(".py"):
                 try:
@@ -59,9 +53,7 @@ class Bot(discord.AutoShardedBot):
                     self.logger.error(f"Failed to load cog {filename}: {e}")
 
     async def on_ready(self):
-        self.logger.info(
-            f"{self.user} (ID={self.user.id}) is ready and online!"
-        )
+        self.logger.info(f"{self.user} (ID={self.user.id}) is ready and online!")
 
     async def on_before_invoke(self, ctx: discord.ApplicationContext):
         self.logger.info(
@@ -70,7 +62,7 @@ class Bot(discord.AutoShardedBot):
 
     def run(self, **kwargs):
         super().run(self.TOKEN, **kwargs)
-        
+
 
 if __name__ == "__main__":
     Bot().run()
