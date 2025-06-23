@@ -2,9 +2,7 @@
 #   All rights reserved.
 
 import discord
-from discord import Color, Interaction
 from discord.ext import commands
-from discord.types.components import ButtonStyle
 
 
 class FaqView(discord.ui.View):
@@ -13,15 +11,19 @@ class FaqView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=180)
 
-    @discord.ui.button(label="General", style=ButtonStyle.primary)
-    async def general_button(self, button: discord.ui.Button, interaction: Interaction):
-        await interaction.response.edit_message(content="Here is the general FAQ.")
+    @discord.ui.button(label="Info", style=discord.ButtonStyle.primary)
+    async def info_button(self, interaction: discord.Interaction):
+        await interaction.response.edit_message(content="Displays the server info.")
 
-    @discord.ui.button(label="Commands", style=ButtonStyle.secondary)
-    async def commands_button(
-        self, button: discord.ui.Button, interaction: Interaction
-    ):
-        await interaction.response.edit_message(content="Here is the list of commands.")
+    @discord.ui.button(label="Colour Coding", style=discord.ButtonStyle.secondary)
+    async def colour_coding_button(self, interaction: discord.Interaction):
+        await interaction.response.edit_message(
+            content="Explains the colour coding used in the bot."
+        )
+
+    @discord.ui.button(label="Metrics", style=discord.ButtonStyle.secondary)
+    async def metrics_button(self, interaction: discord.Interaction):
+        await interaction.response.edit_message(content="Displays the bot's metrics.")
 
 
 class Faq(commands.Cog):
@@ -30,13 +32,15 @@ class Faq(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(name="faq", description="")
+    @discord.slash_command(name="faq", description="Displays the FAQ menu.")
     async def faq(self, ctx):
         await ctx.send_response(
             embed=discord.Embed(
                 title="ℹ️ help",
-                color=Color.blue(),
-            )
+                description="Please select a category.",
+                color=discord.Colour.blue(),
+            ),
+            view=FaqView(),
         )
 
 

@@ -47,7 +47,7 @@ class Metrics(commands.Cog):
                     f"Users: `{len(self.bot.users)}`\n"
                     f"discord.py: `v{discord.__version__}`"
                 ),
-                color=discord.Color.blue(),
+                color=discord.Colour.blue(),
             ),
             ephemeral=True,
         )

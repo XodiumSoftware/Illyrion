@@ -11,7 +11,7 @@ class CC(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(description="Displays the link for color coding.")
+    @discord.slash_command(description="Explains the colour coding used in the bot.")
     async def cc(self, ctx):
         await ctx.send_response(
             embed=discord.Embed(
@@ -21,7 +21,7 @@ class CC(commands.Cog):
                     "Color Format: `MiniMessage`\n"
                     "Usage: Play with the colors and then copy the output and paste it into the chat."
                 ),
-                color=discord.Color.blue(),
+                color=discord.Colour.blue(),
             )
         )
 

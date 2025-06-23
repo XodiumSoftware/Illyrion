@@ -16,11 +16,8 @@ class Info(commands.Cog):
         await ctx.send_response(
             embed=discord.Embed(
                 title="ℹ️ Server Info:",
-                description=(
-                    f"IP: `illyria.xodium.org`\n"
-                    f"Version: `1.21.6`"
-                ),
-                color=discord.Color.blue(),
+                description=("IP: `illyria.xodium.org`\nVersion: `1.21.6`"),
+                color=discord.Colour.blue(),
             )
         )
 

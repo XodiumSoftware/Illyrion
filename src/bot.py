@@ -55,7 +55,7 @@ class Bot(discord.AutoShardedBot):
     async def on_ready(self):
         self.logger.info(f"{self.user} (ID={self.user.id}) is ready and online!")
 
-    async def on_before_invoke(self, ctx: discord.ApplicationContext):
+    async def on_before_invoke(self, ctx):
         self.logger.info(
             f"@{ctx.author} (ID={ctx.author.id}) used /{ctx.command.name} in #{ctx.channel} (ID={ctx.channel.id})"
         )
