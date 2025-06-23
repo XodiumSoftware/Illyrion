@@ -27,10 +27,16 @@ class Metrics(commands.Cog):
             embed=discord.Embed(
                 title="📈 Metrics",
                 description=(
+                    f"**Performance**\n"
                     f"Latency: `{self.bot.latency_ms:.2f} ms`\n"
-                    f"Uptime: `{Utils.format_uptime(datetime.now() - self.bot.start_time)}`\n"
+                    f"Uptime: `{Utils.format_uptime(datetime.now() - self.bot.start_time)}`\n\n"
+                    f"**System**\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
-                    f"Memory Usage: `{psutil.virtual_memory().percent}%`\n"
+                    f"Memory Usage: `{psutil.virtual_memory().percent}%`\n\n"
+                    f"**Statistics**\n"
+                    f"Guilds: `{len(self.bot.guilds)}`\n"
+                    f"Users: `{len(self.bot.users)}`\n"
+                    f"discord.py Version: `v{discord.__version__}`"
                 ),
                 color=discord.Color.blue(),
             ),
