@@ -5,8 +5,6 @@ import discord
 import psutil
 from discord.ext import commands
 
-from src.utils import Utils
-
 
 class Metrics(commands.Cog):
     """
@@ -25,9 +23,10 @@ class Metrics(commands.Cog):
             embed=discord.Embed(
                 title="📈 Metrics",
                 description=(
-                    f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`\n"
+                    f"Latency: `{self.bot.latency_ms:.2f} ms`\n"
+                    f"Uptime: `{Utils.format_uptime(datetime.now() - self.start_time)}`\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
-                    f"Memory Usage: `{psutil.virtual_memory().percent}%`"
+                    f"Memory Usage: `{psutil.virtual_memory().percent}%`\n"
                 ),
                 color=discord.Color.blue(),
             ),
