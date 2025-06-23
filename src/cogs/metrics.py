@@ -1,6 +1,8 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
+import platform
+import sys
 from datetime import datetime
 
 import discord
@@ -23,16 +25,25 @@ class Metrics(commands.Cog):
         default_member_permissions=discord.Permissions(administrator=True),
     )
     async def metrics(self, ctx):
+        mem = psutil.virtual_memory()
+        mem_used = mem.used / (1024**3)
+        mem_total = mem.total / (1024**3)
+
         await ctx.send_response(
             embed=discord.Embed(
                 title="📈 Metrics",
                 description=(
                     f"**Performance**\n"
-                    f"Latency: `{self.bot.latency_ms:.2f} ms`\n"
+                    f"Latency: `{self.bot.latency * 1000:.2f} ms`\n"
                     f"Uptime: `{Utils.format_uptime(datetime.now() - self.bot.start_time)}`\n\n"
+                    f"**Bot**\n"
+                    f"Commands: `{len(self.bot.commands)}`\n"
+                    f"Cogs: `{len(self.bot.cogs)}`\n\n"
                     f"**System**\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
-                    f"Memory Usage: `{psutil.virtual_memory().percent}%`\n\n"
+                    f"Memory Usage: `{mem_used:.2f} GB / {mem_total:.2f} GB ({mem.percent}%)`\n"
+                    f"Python Version: `{sys.version.split(' ')[0]}`\n"
+                    f"Operating System: `{platform.system()} {platform.release()}`\n\n"
                     f"**Statistics**\n"
                     f"Guilds: `{len(self.bot.guilds)}`\n"
                     f"Users: `{len(self.bot.users)}`\n"
