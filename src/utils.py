@@ -16,19 +16,6 @@ class Utils:
     """
 
     @staticmethod
-    def latency_ms(bot):
-        """
-        Calculate the latency of the bot in milliseconds.
-
-        Args:
-            bot (discord.AutoShardedBot): The Discord bot instance.
-
-        Returns:
-            float: The latency in milliseconds.
-        """
-        return bot.latency * 1000
-
-    @staticmethod
     def get_latency_color(latency_ms):
         """
         Determine the color based on the bot's latency.

@@ -23,8 +23,8 @@ class Ping(commands.Cog):
         await ctx.send_response(
             embed=discord.Embed(
                 title="Pong! 🏓",
-                description=f"Latency: `{Utils.latency_ms(self.bot):.2f} ms`",
-                color=Utils.get_latency_color(Utils.latency_ms(self.bot)),
+                description=f"Latency: `{self.bot.latency_ms:.2f} ms`",
+                color=Utils.get_latency_color(self.bot.latency_ms),
             ),
             ephemeral=True,
         )
