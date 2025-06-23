@@ -1,9 +1,12 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
+from datetime import datetime
 
 import discord
 import psutil
 from discord.ext import commands
+
+from src.utils import Utils
 
 
 class Metrics(commands.Cog):
