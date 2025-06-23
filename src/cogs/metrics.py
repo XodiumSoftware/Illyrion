@@ -1,5 +1,6 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
+
 from datetime import datetime
 
 import discord
