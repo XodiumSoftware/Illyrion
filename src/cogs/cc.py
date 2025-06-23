@@ -11,15 +11,15 @@ class CC(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.slash_command(description="Explains the colour coding used in the bot.")
+    @discord.slash_command(description="Explains the colour coding used on the server.")
     async def cc(self, ctx):
         await ctx.send_response(
             embed=discord.Embed(
                 title="ℹ️ Color Coding:",
                 description=(
-                    "Website: `https://www.birdflop.com/resources/rgb/`\n"
+                    "Website: https://www.birdflop.com/resources/rgb/\n"
                     "Color Format: `MiniMessage`\n"
-                    "Usage: Play with the colors and then copy the output and paste it into the chat."
+                    "Usage: https://www.youtube.com/watch?v=bOqqjpUcVmU"
                 ),
                 color=discord.Colour.blue(),
             )
