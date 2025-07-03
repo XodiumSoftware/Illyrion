@@ -91,11 +91,13 @@ class Utils:
         """Parses a duration string (e.g., '1d', '12h', '30m') into seconds."""
         if not duration_str:
             return None
-        match = re.match(r"(\d+)([mhd])$", duration_str.lower())
+        match = re.match(r"(\d+)([smhd])$", duration_str.lower())
         if not match:
             return None
 
         value, unit = int(match.group(1)), match.group(2)
+        if unit == "s":
+            return value
         if unit == "m":
             return value * 60
         if unit == "h":

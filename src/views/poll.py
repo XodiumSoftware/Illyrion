@@ -24,7 +24,7 @@ class PollView(discord.ui.View):
         else:
             self.end_time = None
 
-    def get_embed(self):
+    def get_embed(self, closed=False):
         """Creates the poll embed with the current vote counts."""
         description_parts = []
         total_votes = sum(len(voters) for voters in self.votes.values())
@@ -37,9 +37,12 @@ class PollView(discord.ui.View):
 
         if self.end_time:
             description_parts.append("")
-            description_parts.append(
-                f"Ends {discord.utils.format_dt(self.end_time, style='R')}"
-            )
+            if closed:
+                timestamp = discord.utils.format_dt(self.end_time, style="f")
+                description_parts.append(f"Ended: {timestamp}")
+            else:
+                timestamp = discord.utils.format_dt(self.end_time, style="R")
+                description_parts.append(f"Ends {timestamp}")
 
         embed = discord.Embed(
             title=f"📊 {self.question}",
@@ -56,7 +59,7 @@ class PollView(discord.ui.View):
         for item in self.children:
             item.disabled = True
 
-        embed = self.get_embed()
+        embed = self.get_embed(closed=True)
         embed.title = f"📊 {self.question} (Closed)"
         embed.colour = discord.Colour.red()
         embed.set_footer(text=f"Poll by {self.author.display_name} has ended.")

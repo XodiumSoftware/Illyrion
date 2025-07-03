@@ -31,7 +31,7 @@ class Poll(commands.Cog):
         ),
         deadline: discord.Option(
             str,
-            "Poll deadline (e.g., 30m, 2h, 1d).",
+            "Poll deadline (e.g., 10s, 30m, 2h, 1d).",
             required=False,
             default=None,
         ),
@@ -61,6 +61,7 @@ class Poll(commands.Cog):
         view = PollView(question, option_list, ctx.author, timeout=timeout)
         content = mention.mention if mention else None
         await ctx.send_response(content=content, embed=view.get_embed(), view=view)
+        view.message = await ctx.interaction.original_response()
 
 
 def setup(bot):
