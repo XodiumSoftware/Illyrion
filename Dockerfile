@@ -4,8 +4,6 @@ WORKDIR /app
 COPY src/ ./src/
 COPY pyproject.toml ./
 ENV PYTHONPATH=/app
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir build && \
-    python -m build && \
-    pip install --no-cache-dir dist/*.whl
+RUN pip install uv && \
+    uv pip install --no-cache --system .
 CMD ["python", "src/bot.py"]
