@@ -37,7 +37,7 @@ class Poll(commands.Cog):
             )
             return
 
-        view = PollView(question, options, ctx.author)
+        view = PollView(question, option_list, ctx.author)
         await ctx.send_response(embed=view.get_embed(), view=view)
 
 
