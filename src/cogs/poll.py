@@ -4,6 +4,7 @@
 import discord
 from discord.ext import commands
 
+from src.utils import Utils
 from src.views.poll import PollView
 
 
@@ -22,6 +23,12 @@ class Poll(commands.Cog):
         ctx: discord.ApplicationContext,
         question: discord.Option(str, "The question for the poll."),
         options: discord.Option(str, "The poll options, separated by a semicolon (;)."),
+        deadline: discord.Option(
+            str,
+            "Poll deadline (e.g., 30m, 2h, 1d).",
+            required=False,
+            default=None,
+        ),
     ):
         option_list = [opt.strip() for opt in options.split(";") if opt.strip()]
 
@@ -37,7 +44,15 @@ class Poll(commands.Cog):
             )
             return
 
-        view = PollView(question, option_list, ctx.author)
+        timeout = Utils.parse_duration(deadline)
+        if deadline and timeout is None:
+            await ctx.send_response(
+                "Invalid deadline format. Use 'm' for minutes, 'h' for hours, 'd' for days (e.g., 30m, 2h, 1d).",
+                ephemeral=True,
+            )
+            return
+
+        view = PollView(question, option_list, ctx.author, timeout=timeout)
         await ctx.send_response(embed=view.get_embed(), view=view)
 
 
