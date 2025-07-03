@@ -23,6 +23,12 @@ class Poll(commands.Cog):
         ctx: discord.ApplicationContext,
         question: discord.Option(str, "The question for the poll."),
         options: discord.Option(str, "The poll options, separated by a semicolon (;)."),
+        mention: discord.Option(
+            discord.Role,
+            "Role to mention with the poll.",
+            required=False,
+            default=None,
+        ),
         deadline: discord.Option(
             str,
             "Poll deadline (e.g., 30m, 2h, 1d).",
@@ -53,7 +59,8 @@ class Poll(commands.Cog):
             return
 
         view = PollView(question, option_list, ctx.author, timeout=timeout)
-        await ctx.send_response(embed=view.get_embed(), view=view)
+        content = mention.mention if mention else None
+        await ctx.send_response(content=content, embed=view.get_embed(), view=view)
 
 
 def setup(bot):
