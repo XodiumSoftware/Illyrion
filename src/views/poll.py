@@ -43,11 +43,10 @@ class PollView(discord.ui.View):
 
         for voters in self.votes.values():
             if user_id in voters:
-                await interaction.response.send_message(
-                    "You have already voted in this poll.", ephemeral=True
-                )
+                await interaction.response.defer()
                 return
 
         self.votes[selected_option].append(user_id)
+        self.select_menu.disabled = True
 
         await interaction.response.edit_message(embed=self.get_embed(), view=self)
