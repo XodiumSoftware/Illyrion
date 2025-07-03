@@ -1,7 +1,7 @@
 #   Copyright (c) 2025. Xodium.
 #   All rights reserved.
 
-import datetime
+from datetime import timedelta
 
 import discord
 
@@ -20,32 +20,34 @@ class PollView(discord.ui.View):
         self.add_item(PollSelect(options=self.options, votes=self.votes))
         self.message = None
         if timeout:
-            self.end_time = discord.utils.utcnow() + datetime.timedelta(seconds=timeout)
+            self.end_time = discord.utils.utcnow() + timedelta(seconds=timeout)
         else:
             self.end_time = None
 
     def get_embed(self):
         """Creates the poll embed with the current vote counts."""
-        description = []
+        description_parts = []
         total_votes = sum(len(voters) for voters in self.votes.values())
         for option, voters in self.votes.items():
             vote_count = len(voters)
             percentage = (
                 f"({(vote_count / total_votes) * 100:.1f}%)" if total_votes > 0 else ""
             )
-            description.append(f"**{option}**: {vote_count} vote(s) {percentage}")
+            description_parts.append(f"**{option}**: {vote_count} vote(s) {percentage}")
+
+        if self.end_time:
+            description_parts.append("")
+            description_parts.append(
+                f"Ends {discord.utils.format_dt(self.end_time, style='R')}"
+            )
 
         embed = discord.Embed(
             title=f"📊 {self.question}",
-            description="\n".join(description),
+            description="\n".join(description_parts),
             color=discord.Colour.blue(),
         )
 
         footer_text = f"Poll created by {self.author.display_name}"
-        if self.end_time:
-            footer_text += (
-                f" | Ends {discord.utils.format_dt(self.end_time, style='R')}"
-            )
         embed.set_footer(text=footer_text)
         return embed
 
