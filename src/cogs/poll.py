@@ -4,6 +4,8 @@
 import discord
 from discord.ext import commands
 
+from src.views.poll import PollView
+
 
 class Poll(commands.Cog):
     """A cog for Poll-related commands."""
@@ -12,7 +14,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     @discord.slash_command(
-        description="",
+        description="Create a poll with up to 10 options using a dropdown.",
         default_member_permissions=discord.Permissions(administrator=True),
     )
     async def poll(
@@ -47,26 +49,8 @@ class Poll(commands.Cog):
             if opt is not None
         ]
 
-        if len(options) < 2:
-            return
-
-        emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
-        description = []
-        for i, option in enumerate(options):
-            description.append(f"{emojis[i]} {option}")
-
-        embed = discord.Embed(
-            title=f"📊 {question}",
-            description="\n".join(description),
-            color=discord.Colour.blue(),
-        )
-        embed.set_footer(text=f"Poll created by {ctx.author.display_name}")
-
-        await ctx.send_response(embed=embed)
-        message = await ctx.interaction.original_response()
-
-        for i in range(len(options)):
-            await message.add_reaction(emojis[i])
+        view = PollView(question, options, ctx.author)
+        await ctx.send_response(embed=view.get_embed(), view=view)
 
 
 def setup(bot):
