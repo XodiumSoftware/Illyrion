@@ -4,6 +4,7 @@
 import glob
 import logging
 import os
+import re
 from datetime import datetime
 from zipfile import ZipFile
 
@@ -84,3 +85,21 @@ class Utils:
         console_handler.setLevel(log_level)
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
+
+    @staticmethod
+    def parse_duration(duration_str: str) -> int | None:
+        """Parses a duration string (e.g., '1d', '12h', '30m') into seconds."""
+        if not duration_str:
+            return None
+        match = re.match(r"(\d+)([mhd])$", duration_str.lower())
+        if not match:
+            return None
+
+        value, unit = int(match.group(1)), match.group(2)
+        if unit == "m":
+            return value * 60
+        if unit == "h":
+            return value * 3600
+        if unit == "d":
+            return value * 86400
+        return None

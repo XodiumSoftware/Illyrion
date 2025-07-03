@@ -22,7 +22,7 @@ class Metrics(commands.Cog):
         description="Displays the bot's metrics.",
         default_member_permissions=discord.Permissions(administrator=True),
     )
-    async def metrics(self, ctx):
+    async def metrics(self, ctx: discord.ApplicationContext):
         mem = psutil.virtual_memory()
         mem_used = mem.used / (1024**3)
         mem_total = mem.total / (1024**3)
