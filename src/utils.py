@@ -4,6 +4,7 @@
 import glob
 import logging
 import os
+import re
 from datetime import datetime
 from zipfile import ZipFile
 
