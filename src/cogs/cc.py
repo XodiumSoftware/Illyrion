@@ -12,7 +12,7 @@ class CC(commands.Cog):
         self.bot = bot
 
     @discord.slash_command(description="Explains the colour coding used on the server.")
-    async def cc(self, ctx):
+    async def cc(self, ctx: discord.ApplicationContext):
         await ctx.send_response(
             embed=discord.Embed(
                 title="ℹ️ Color Coding:",

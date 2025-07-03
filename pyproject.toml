@@ -8,6 +8,7 @@ dependencies = [
     "audioop-lts",
     "psutil",
     "python-dotenv",
+    "black>=25.1.0",
 ]
 
 authors = [{ name = "Xodium", email = "info@xodium.org" }]
