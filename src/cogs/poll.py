@@ -31,7 +31,7 @@ class Poll(commands.Cog):
         ),
         deadline: discord.Option(
             str,
-            "Poll deadline (e.g., 30m, 2h, 1d).",
+            "Poll deadline (e.g., 10s, 30m, 2h, 1d).",
             required=False,
             default=None,
         ),
