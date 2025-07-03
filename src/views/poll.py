@@ -3,6 +3,8 @@
 
 import discord
 
+from src.selects.poll import PollSelect
+
 
 class PollView(discord.ui.View):
     """A view for the poll, containing the voting dropdown."""
@@ -13,20 +15,18 @@ class PollView(discord.ui.View):
         self.options = options
         self.author = author
         self.votes = {option: [] for option in self.options}
-
-        select_options = [discord.SelectOption(label=opt) for opt in self.options]
-        self.select_menu = discord.ui.Select(
-            placeholder="Cast your vote...", options=select_options
-        )
-        self.select_menu.callback = self.select_callback
-        self.add_item(self.select_menu)
+        self.add_item(PollSelect(options=self.options, votes=self.votes))
 
     def get_embed(self):
         """Creates the poll embed with the current vote counts."""
         description = []
+        total_votes = sum(len(voters) for voters in self.votes.values())
         for option, voters in self.votes.items():
             vote_count = len(voters)
-            description.append(f"**{option}**: {vote_count} vote(s)")
+            percentage = (
+                f"({(vote_count / total_votes) * 100:.1f}%)" if total_votes > 0 else ""
+            )
+            description.append(f"**{option}**: {vote_count} vote(s) {percentage}")
 
         embed = discord.Embed(
             title=f"📊 {self.question}",
@@ -35,18 +35,3 @@ class PollView(discord.ui.View):
         )
         embed.set_footer(text=f"Poll created by {self.author.display_name}")
         return embed
-
-    async def select_callback(self, interaction: discord.Interaction):
-        """Handles a selection from the dropdown."""
-        user_id = interaction.user.id
-        selected_option = self.select_menu.values[0]
-
-        for voters in self.votes.values():
-            if user_id in voters:
-                await interaction.response.defer()
-                return
-
-        self.votes[selected_option].append(user_id)
-        self.select_menu.disabled = True
-
-        await interaction.response.edit_message(embed=self.get_embed(), view=self)
