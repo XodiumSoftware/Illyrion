@@ -11,14 +11,18 @@ from src.selects.poll import PollSelect
 class PollView(discord.ui.View):
     """A view for the poll, containing the voting dropdown."""
 
-    def __init__(self, question, options, author, timeout=None):
+    def __init__(self, question, options, author, max_choices=1, timeout=None):
         super().__init__(timeout=timeout)
         self.question = question
         self.options = options
         self.author = author
+        self.max_choices = max_choices
         self.votes = {option: [] for option in self.options}
-        self.add_item(PollSelect(options=self.options, votes=self.votes))
+        self.add_item(
+            PollSelect(options=self.options, votes=self.votes, max_values=max_choices)
+        )
         self.message = None
+        self.cog = None
         if timeout:
             self.end_time = discord.utils.utcnow() + timedelta(seconds=timeout)
         else:
@@ -34,6 +38,12 @@ class PollView(discord.ui.View):
                 f"({(vote_count / total_votes) * 100:.1f}%)" if total_votes > 0 else ""
             )
             description_parts.append(f"**{option}**: {vote_count} vote(s) {percentage}")
+
+        description_parts.append("")
+        if self.max_choices > 1:
+            description_parts.append(f"*Select up to {self.max_choices} options.*")
+        else:
+            description_parts.append("*Select 1 option.*")
 
         if self.end_time:
             description_parts.append("")
@@ -65,4 +75,10 @@ class PollView(discord.ui.View):
         embed.set_footer(text=f"Poll by {self.author.display_name} has ended.")
 
         if self.message:
-            await self.message.edit(embed=embed, view=self)
+            try:
+                await self.message.edit(embed=embed, view=self)
+            except discord.NotFound:
+                pass
+
+        if self.cog and self in self.cog.active_polls:
+            self.cog.active_polls.remove(self)

@@ -13,6 +13,7 @@ class Poll(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.active_polls = []
 
     @discord.slash_command(
         description="Create a poll with up to 10 options using a dropdown.",
@@ -23,6 +24,12 @@ class Poll(commands.Cog):
         ctx: discord.ApplicationContext,
         question: discord.Option(str, "The question for the poll."),
         options: discord.Option(str, "The poll options, separated by a semicolon (;)."),
+        max_choices: discord.Option(
+            int,
+            "How many options a user can select. Defaults to 1 (single choice).",
+            required=False,
+            default=1,
+        ),
         mention: discord.Option(
             discord.Role,
             "Role to mention with the poll.",
@@ -50,6 +57,19 @@ class Poll(commands.Cog):
             )
             return
 
+        if max_choices < 1:
+            await ctx.send_response(
+                "`max_choices` must be 1 or greater.", ephemeral=True
+            )
+            return
+
+        if max_choices > len(option_list):
+            await ctx.send_response(
+                "`max_choices` cannot be greater than the number of options.",
+                ephemeral=True,
+            )
+            return
+
         timeout = Utils.parse_duration(deadline)
         if deadline and timeout is None:
             await ctx.send_response(
@@ -58,10 +78,12 @@ class Poll(commands.Cog):
             )
             return
 
-        view = PollView(question, option_list, ctx.author, timeout=timeout)
+        view = PollView(question, option_list, ctx.author, max_choices, timeout)
+        view.cog = self
         content = mention.mention if mention else None
         await ctx.send_response(content=content, embed=view.get_embed(), view=view)
         view.message = await ctx.interaction.original_response()
+        self.active_polls.append(view)
 
 
 def setup(bot):
