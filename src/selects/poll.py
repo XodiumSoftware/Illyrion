@@ -24,8 +24,6 @@ class PollSelect(discord.ui.Select):
             return
 
         self.votes[selected_option].append(user_id)
-        self.disabled = True
-        self.placeholder = "You have already voted"
 
         await interaction.response.edit_message(
             embed=self.view.get_embed(), view=self.view
