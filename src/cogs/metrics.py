@@ -12,13 +12,13 @@ from src.utils import Utils
 class Metrics(commands.Cog):
     """A cog for handling Metrics-related commands."""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
-    @discord.slash_command(
+    @discord.slash_command( # type: ignore
         description="Displays the bot's metrics.",
         default_member_permissions=discord.Permissions(administrator=True),
-    )
+    ) 
     async def metrics(self, ctx: discord.ApplicationContext):
         mem = psutil.virtual_memory()
         mem_used = mem.used / (1024**3)
@@ -32,7 +32,7 @@ class Metrics(commands.Cog):
                     f"Latency: `{self.bot.latency * 1000:.2f} ms`\n"
                     f"Uptime: `{Utils.format_uptime(datetime.now() - self.bot.start_time)}`\n\n"
                     f"**Bot**\n"
-                    f"Commands: `{len(self.bot.commands)}`\n"
+                    f"Commands: `{len(self.bot.commands)}`\n" # type: ignore
                     f"Cogs: `{len(self.bot.cogs)}`\n\n"
                     f"**System**\n"
                     f"CPU Usage: `{psutil.cpu_percent()}%`\n"
@@ -50,5 +50,5 @@ class Metrics(commands.Cog):
         )
 
 
-def setup(bot):
+def setup(bot: commands.AutoShardedBot) -> None:
     bot.add_cog(Metrics(bot))

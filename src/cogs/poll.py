@@ -8,10 +8,10 @@ from src.views.poll import PollView
 class Poll(commands.Cog):
     """A cog for Poll-related commands."""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
-    @discord.slash_command(
+    @discord.slash_command( # type: ignore
         description="Create a poll with up to 10 options using a dropdown.",
         default_member_permissions=discord.Permissions(administrator=True),
     )
@@ -61,5 +61,5 @@ class Poll(commands.Cog):
         view.message = await ctx.interaction.original_response()
 
 
-def setup(bot):
+def setup(bot: commands.AutoShardedBot) -> None:
     bot.add_cog(Poll(bot))

@@ -5,10 +5,10 @@ from discord.ext import commands
 class Info(commands.Cog):
     """A cog for handling Info-related commands."""
 
-    def __init__(self, bot):
+    def __init__(self, bot: commands.AutoShardedBot) -> None:
         self.bot = bot
 
-    @discord.slash_command(description="Displays the server info.")
+    @discord.slash_command(description="Displays the server info.") # type: ignore
     async def info(self, ctx: discord.ApplicationContext):
         await ctx.send_response(
             embed=discord.Embed(
@@ -19,5 +19,5 @@ class Info(commands.Cog):
         )
 
 
-def setup(bot):
+def setup(bot: commands.AutoShardedBot) -> None:
     bot.add_cog(Info(bot))
