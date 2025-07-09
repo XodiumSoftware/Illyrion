@@ -33,7 +33,7 @@ class Poll(commands.Cog):
             default=None,
         ),
     ):
-        option_list = [opt.strip() for opt in options.split(";") if opt.strip()]
+        option_list: list[str] = [opt.strip() for opt in options.split(";") if opt.strip()]
 
         if len(option_list) < 2:
             await ctx.send_response(

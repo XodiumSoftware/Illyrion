@@ -1,4 +1,5 @@
 from datetime import timedelta
+from typing import Optional
 
 import discord
 
@@ -8,12 +9,12 @@ from src.selects.poll import PollSelect
 class PollView(discord.ui.View):
     """A view for the poll, containing the voting dropdown."""
 
-    def __init__(self, question, options, author, timeout=None):
+    def __init__(self, question: str, options: list[str], author: discord.User | discord.Member, timeout: Optional[int]=None):
         super().__init__(timeout=timeout)
         self.question = question
         self.options = options
         self.author = author
-        self.votes = {option: [] for option in self.options}
+        self.votes: dict[str, list[int]] = {option: [] for option in self.options}
         self.add_item(PollSelect(options=self.options, votes=self.votes))
         self.message = None
         if timeout:
@@ -21,9 +22,9 @@ class PollView(discord.ui.View):
         else:
             self.end_time = None
 
-    def get_embed(self, closed=False):
+    def get_embed(self, closed: bool=False):
         """Creates the poll embed with the current vote counts."""
-        description_parts = []
+        description_parts: list[str] = []
         total_votes = sum(len(voters) for voters in self.votes.values())
         for option, voters in self.votes.items():
             vote_count = len(voters)
