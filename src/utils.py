@@ -2,7 +2,7 @@ import glob
 import logging
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from zipfile import ZipFile
 
 
@@ -10,7 +10,7 @@ class Utils:
     """Utility class containing various helper methods for the Discord bot."""
 
     @staticmethod
-    def format_uptime(duration):
+    def format_uptime(duration: timedelta) -> str:
         """
         Format a duration into a human-readable uptime string.
 
@@ -24,7 +24,7 @@ class Utils:
         hours, remainder = divmod(remainder, 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        parts = []
+        parts: list[str] = []
         if days > 0:
             parts.append(f"{int(days)}d")
         if hours > 0:
@@ -37,7 +37,7 @@ class Utils:
         return " ".join(parts)
 
     @staticmethod
-    def setup_logging(logging_path, max_archived_logs, log_level):
+    def setup_logging(logging_path: str, max_archived_logs: int, log_level: int):
         """
         Set up logging for the application, including archiving old logs.
 
@@ -85,7 +85,15 @@ class Utils:
 
     @staticmethod
     def parse_duration(duration_str: str) -> int | None:
-        """Parses a duration string (e.g., '1d', '12h', '30m') into seconds."""
+        """
+        Parse a duration string and return the duration in seconds.
+
+        Args:
+            duration_str (str): The duration string (e.g., "10m", "2h", "1d").
+
+        Returns:
+            int | None: The duration in seconds, or None if the input is invalid.
+        """
         if not duration_str:
             return None
         match = re.match(r"(\d+)([smhd])$", duration_str.lower())
