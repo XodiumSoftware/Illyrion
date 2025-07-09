@@ -196,4 +196,3 @@ cython_debug/
 # Bot specific files
 logs
 src/.env
-uv.lock
