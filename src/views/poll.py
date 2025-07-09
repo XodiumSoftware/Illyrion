@@ -1,6 +1,3 @@
-#   Copyright (c) 2025. Xodium.
-#   All rights reserved.
-
 from datetime import timedelta
 
 import discord

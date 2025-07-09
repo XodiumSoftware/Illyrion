@@ -1,5 +1,3 @@
-#   Copyright (c) 2025. Xodium.
-#   All rights reserved.
 import logging
 import os
 from datetime import datetime
